@@ -137,7 +137,7 @@
             @endif
             <li class="nav-item">
               <a href="{{url('/suggestion')}}" class="nav-link">
-                {{-- <i class="bi bi-card-checklist"></i>  --}}
+                <i class="bi bi-card-checklist"></i> 
                 <p>
                   Sugestões
                 </p>
