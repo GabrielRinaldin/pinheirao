@@ -38,7 +38,7 @@ class UserController extends Controller
             }
 
             $user = new User();
-            $user->name = $request->name;
+            $user->name = strtolower($request->name);
             $user->house_number = $request->house_number;
             $user->user_type = $request->user_type;
             $user->password = bcrypt($request->password);
@@ -76,7 +76,7 @@ class UserController extends Controller
             }
 
             $user = User::findOrFail($id);
-            $user->name = $request->name;
+            $user->name = strtolower($request->name);
             $user->house_number = $request->house_number;
             $user->user_type = $request->user_type;
 
