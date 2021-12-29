@@ -20,11 +20,11 @@ class AuthController extends Controller
             ]);
     
             $attrName = [
-                'name' => $request->name_house_number,
+                'name' => strtolower($request->name_house_number),
                 'password' => $request->password
             ];
             $attrNumber = [
-                'house_number' => $request->name_house_number,
+                'house_number' => strtolower($request->name_house_number),
                 'password' => $request->password
             ];
     
