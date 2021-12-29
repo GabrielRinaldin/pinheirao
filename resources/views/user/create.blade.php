@@ -35,11 +35,11 @@
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                            <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                    @endif
 
 
                     <form action="{{url('/user/create')}}" method="POST">
@@ -59,8 +59,9 @@
 
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="house_number" class="form-control @error('house_number') is-invalid @enderror" id="house_number"
-                                        name="house_number" placeholder="Número da casa">
+                                    <input type="house_number"
+                                        class="form-control @error('house_number') is-invalid @enderror"
+                                        id="house_number" name="house_number" placeholder="Número da casa">
                                     @error('house_number')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -72,7 +73,8 @@
                                 <div class="col-sm-6">
                                     <!-- select -->
                                     <div class="form-group">
-                                        <select class="form-control @error('user_type') is-invalid @enderror" name="user_type">
+                                        <select class="form-control @error('user_type') is-invalid @enderror"
+                                            name="user_type">
                                             <option value="">Tipo usuário</option>
                                             <option value="sindico">Sindico</option>
                                             <option value="colaborador">Colaborador</option>
@@ -86,8 +88,8 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password"
-                                        placeholder="Senha">
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                        id="password" name="password" placeholder="Senha">
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

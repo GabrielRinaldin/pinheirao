@@ -109,7 +109,7 @@
             <!-- Add icons to the links using the .nav-icon class
                    with font-awesome or any other icon font library -->
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{url('/home')}}" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Dashboard
@@ -117,6 +117,7 @@
                 </p>
               </a>
             </li>
+            @if(Auth::user()->tipo == 'sindico')
             <li class="nav-item">
               <a href="{{url('/user')}}" class="nav-link">
                 <i class="bi bi-people"></i>
@@ -130,6 +131,15 @@
                 <i class="bi bi-cash-coin"></i> 
                 <p>
                   Arrecadações
+                </p>
+              </a>
+            </li>
+            @endif
+            <li class="nav-item">
+              <a href="{{url('/suggestion')}}" class="nav-link">
+                <i class="bi bi-card-checklist"></i> 
+                <p>
+                  Sugestões
                 </p>
               </a>
             </li>

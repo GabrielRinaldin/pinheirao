@@ -49,4 +49,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Movement');
     }
+
+    public function suggestion()
+    {
+        return $this->hasMany('App\Models\Suggestion');
+    }
 }

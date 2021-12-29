@@ -35,6 +35,14 @@ Route::get('/user/edit/{id}', 'UserController@show');
 Route::post('/user/edit/{id}', 'UserController@update')->name('user.update');
 Route::delete('/user/delete/{id}', 'UserController@destroy');
 
+//Rotas para adicionar sugestões
+Route::get('/suggestion', 'SuggestionController@index');
+Route::get('/suggestion/create', 'SuggestionController@create');
+Route::post('/suggestion/create', 'SuggestionController@store');
+Route::get('/suggestion/show/{id}', 'SuggestionController@show');
+
+
+
 //Rotas para cadastro movimentações    
 Route::get('/movement' , 'MovementController@index');
 Route::get('/movement/create' , 'MovementController@create');
