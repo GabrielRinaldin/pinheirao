@@ -30,13 +30,17 @@
 </head>
 
 <body class="sidebar-mini layout-footer-fixed" style="height: auto;">
-
+  
   <!-- Site wrapper -->
   <div class="wrapper">
+    
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="bi bi-justify"></i></a>
+        </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="../../index3.html" class="nav-link">Ínicio</a>
         </li>
