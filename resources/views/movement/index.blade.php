@@ -27,27 +27,46 @@
                 <div class="card">
                     <div class="card-header">
                         <a class="card-title btn btn-info" href="{{url('/movement/create')}}">Adicionar Movimentação.</a>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
                     </div>
                     <div class="card-body">
-                        <p>Esse sistema foi desenvolvido para nós moradores do Conjunto Pinheirão podermos centralizar
-                            nossas
-                            dúvidas, críticas e sujestões em um só lugar!</p>
-                        <p>As áreas são reservadas e exclusivas aos moradores, contendo as seguintes telas:</p>
-                        <p> Arrecadação mensal e total das taxas;</p>
-                        <p> Sujestões de Melhorias e Críticas;</p>
-                        <p> Antes e Depois das Obras <small>(Caso exista).</small></p>
-                        <p> Todas as informações sobre sujestões e críticas serão anônimas então fique avontade para
-                            escrever o que
-                            quiser! </p>
+                        @if (session('status'))
+                        <div class="alert alert-success alert-dismissible fade show " role="alert">
+                            {{ session('status') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        @endif
+                        @if ($movements->count() == 0)
+                        <p>Que pena, não foi feita nenhuma movimentação.</p>
+                        @else
+                        <div class="card-body table-responsive p-0" style="height: 300px;">
+                            <table class="table table-head-fixed text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tipo</th>
+                                        <th>Valor</th>
+                                        <th>Descrição</th>
+                                        <th>Criado Por</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($movements as $movement)
+
+                                    <tr>
+                                        <td>{{$movement->id}}</td>
+                                        <td>{{$movement->type_of_movement}}</td>
+                                        <td>{{$movement->value}}</td>
+                                        <td>{{$movement->description}}</td>
+                                        <td>{{$movement->user->name}}</td>
+                                    </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                        @endif
 
                     </div>
                     <!-- /.card-body -->

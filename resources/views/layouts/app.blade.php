@@ -39,7 +39,7 @@
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="bi bi-justify"></i></a>
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="bi bi-justify"></i> </a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="../../index3.html" class="nav-link">Ínicio</a>
@@ -114,14 +114,13 @@
                    with font-awesome or any other icon font library -->
             <li class="nav-item">
               <a href="{{url('/home')}}" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <i class="bi bi-house"></i>
                 <p>
-                  Dashboard
-                  <i class="right fas fa-angle-left"></i>
+                  Ínicio
                 </p>
               </a>
             </li>
-            @if(Auth::user()->tipo == 'sindico')
+            @if(Auth::user()->user_type == 'sindico')
             <li class="nav-item">
               <a href="{{url('/user')}}" class="nav-link">
                 <i class="bi bi-people"></i>
@@ -134,7 +133,7 @@
               <a href="{{url('/movement')}}" class="nav-link">
                 <i class="bi bi-cash-coin"></i> 
                 <p>
-                  Arrecadações
+                  Movimentações
                 </p>
               </a>
             </li>
