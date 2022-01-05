@@ -9,7 +9,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Movimentações</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('/movement')}}">Movimentações</a></li>
                     <li class="breadcrumb-item"><a href="#">Adicionar</a></li>
                 </ol>
             </div>
@@ -53,12 +53,12 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-6 form-group">
                                     <input type="text" class="form-control" id="description" name="description"  value="{{old('description')}}"
                                         placeholder="Descrição">
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group">
+                                    <div>
                                         <select class="form-control" name="house_number">
                                             <option value="">Número da casa</option>
                                             @foreach ($houseNumbers as $number)
