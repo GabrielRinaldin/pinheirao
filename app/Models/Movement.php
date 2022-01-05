@@ -9,10 +9,6 @@ class Movement extends Model
 {
     use HasFactory;
 
-    protected $dateFormat = [
-        'date' => 'date',
-    ];
-
     public function user()
     {
         return $this->belongsTo('App\Models\User');

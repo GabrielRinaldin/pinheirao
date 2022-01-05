@@ -14,8 +14,10 @@ class MovementController extends Controller
 {
     public function index()
     {
-        $movements = Movement::all();
-        return view('movement.index', compact('movements'));
+        $credits = Movement::where('type_of_movement', 'credit')->orderBy('date', 'asc')->get();
+        $debits = Movement::where('type_of_movement', 'debit')->orderBy('date', 'asc')->get();
+        $movements = Movement::orderBy('date', 'asc')->get();
+        return view('movement.index', compact('credits', 'debits', 'movements'));
     }
 
     public function create()

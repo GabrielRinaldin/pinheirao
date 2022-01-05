@@ -5,7 +5,6 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Movimentações!</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -26,7 +25,8 @@
                 <!-- Default box -->
                 <div class="card">
                     <div class="card-header">
-                        <a class="card-title btn btn-info" href="{{url('/movement/create')}}">Adicionar Movimentação.</a>
+                        <a class="card-title btn btn-info" href="{{url('/movement/create')}}">Adicionar
+                            Movimentação.</a>
                     </div>
                     <div class="card-body">
                         @if (session('status'))
@@ -37,7 +37,25 @@
                             </button>
                         </div>
                         @endif
-                        @if ($movements->count() == 0)
+                        <div id="chart_div"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Créditos</h3>
+                    </div>
+                    <div class="card-body">
+                        @if (session('status'))
+                        <div class="alert alert-success alert-dismissible fade show " role="alert">
+                            {{ session('status') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        @endif
+                        @if ($credits->count() == 0)
                         <p>Que pena, não foi feita nenhuma movimentação.</p>
                         @else
                         <div class="card-body table-responsive p-0" style="height: 300px;">
@@ -45,21 +63,53 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Tipo</th>
                                         <th>Valor</th>
                                         <th>Descrição</th>
                                         <th>Criado Por</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($movements as $movement)
-
+                                    @foreach ($credits as $credit)
                                     <tr>
-                                        <td>{{$movement->id}}</td>
-                                        <td>{{$movement->type_of_movement}}</td>
-                                        <td>{{$movement->value}}</td>
-                                        <td>{{$movement->description}}</td>
-                                        <td>{{$movement->user->name}}</td>
+                                        <td>{{$credit->id}}</td>
+                                        <td>R${{$credit->value}}</td>
+                                        <td>{{$credit->description}}</td>
+                                        <td>{{$credit->user->name}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Débitos</h3>
+                    </div>
+                    <div class="card-body">
+                        @if ($debits->count() == 0)
+                        <p>Que pena, não foi feita nenhuma movimentação.</p>
+                        @else
+                        <div class="card-body table-responsive p-0" style="height: 300px;">
+                            <table class="table table-head-fixed text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Valor</th>
+                                        <th>Descrição</th>
+                                        <th>Criado Por</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($debits as $debit)
+                                    <tr>
+                                        <td>{{$debit->id}}</td>
+                                        <td>R${{$debit->value}}</td>
+                                        <td>{{$debit->description}}</td>
+                                        <td>{{$debit->user->name}}</td>
                                     </tr>
                                     @endforeach
 
@@ -67,18 +117,59 @@
                             </table>
                         </div>
                         @endif
-
                     </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        Att Conjunto Pinheirão.
-                    </div>
-                    <!-- /.card-footer-->
                 </div>
-                <!-- /.card -->
             </div>
         </div>
     </div>
 </section>
-<!-- /.content -->
+<script>
+    google.charts.load('current', {packages: ['corechart', 'line'], 'language': 'pt-Br'});
+    google.charts.setOnLoadCallback(drawBackgroundColor);
+
+function drawBackgroundColor() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('date', 'Month');
+      data.addColumn('number', 'Crédito');
+      data.addColumn('number', 'Débito');
+
+     let dataArray = [];
+     let year = '';
+     let month = '';
+     let totalValue = 0;
+     let credit = 0;
+     let debit = 0;
+      @foreach($movements as $movement)
+      totalValue += {{$movement->value}};
+      year = '{{Carbon\Carbon::parse($movement->date)->format('Y')}}';
+      month = '{{Carbon\Carbon::parse($movement->date)->format('m')}}';
+
+      if('{{$movement->type_of_movement}}' == 'credit'){
+        credit = {{$movement->value}};
+      }
+      if('{{$movement->type_of_movement}}' == 'debit'){
+        debit = {{$movement->value}};
+      }
+      console.log(debit, credit);
+        dataArray.push([new Date(year, month ), credit, debit]);
+      @endforeach
+    
+      data.addRows(dataArray);
+
+      var options = {
+        hAxis: {
+          title: 'Meses'
+        },
+        vAxis: {
+          title: 'Valor'
+        },
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+
+      document.getElementById('totalValue').innerHTML = 'Total: R$ ' + totalValue;
+    }
+</script>
 @endsection
