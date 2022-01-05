@@ -46,5 +46,7 @@ Route::get('/suggestion/show/{id}', 'SuggestionController@show');
 //Rotas para cadastro movimentações    
 Route::get('/movement' , 'MovementController@index');
 Route::get('/movement/create' , 'MovementController@create');
+Route::post('/movement/create' , 'MovementController@store');
+
 
 });
