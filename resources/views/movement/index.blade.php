@@ -27,6 +27,9 @@
                     <div class="card-header">
                         <a class="card-title btn btn-info" href="{{url('/movement/create')}}">Adicionar
                             Movimentação.</a>
+                        <div style="text-align: right">
+                            <small id="totalValue"></small>
+                        </div>
                     </div>
                     <div class="card-body">
                         @if (session('status'))
@@ -45,16 +48,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h3>Créditos</h3>
+                        <div style="text-align: right">
+                            <small id="totalCredit"></small>
+                        </div>
                     </div>
                     <div class="card-body">
-                        @if (session('status'))
-                        <div class="alert alert-success alert-dismissible fade show " role="alert">
-                            {{ session('status') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        @endif
                         @if ($credits->count() == 0)
                         <p>Que pena, não foi feita nenhuma movimentação.</p>
                         @else
@@ -65,7 +63,6 @@
                                         <th>#</th>
                                         <th>Valor</th>
                                         <th>Descrição</th>
-                                        <th>Criado Por</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,7 +71,6 @@
                                         <td>{{$credit->id}}</td>
                                         <td>R${{$credit->value}}</td>
                                         <td>{{$credit->description}}</td>
-                                        <td>{{$credit->user->name}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -88,6 +84,9 @@
                 <div class="card">
                     <div class="card-header">
                         <h3>Débitos</h3>
+                        <div style="text-align: right">
+                            <small id="totalDebit"></small>
+                        </div>
                     </div>
                     <div class="card-body">
                         @if ($debits->count() == 0)
@@ -100,7 +99,6 @@
                                         <th>#</th>
                                         <th>Valor</th>
                                         <th>Descrição</th>
-                                        <th>Criado Por</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -109,7 +107,6 @@
                                         <td>{{$debit->id}}</td>
                                         <td>R${{$debit->value}}</td>
                                         <td>{{$debit->description}}</td>
-                                        <td>{{$debit->user->name}}</td>
                                     </tr>
                                     @endforeach
 
@@ -138,21 +135,27 @@ function drawBackgroundColor() {
      let year = '';
      let month = '';
      let totalValue = 0;
+     let totalCredit = 0;
+     let totalDebit = 0;
      let credit = 0;
      let debit = 0;
       @foreach($movements as $movement)
-      totalValue += {{$movement->value}};
-      year = '{{Carbon\Carbon::parse($movement->date)->format('Y')}}';
-      month = '{{Carbon\Carbon::parse($movement->date)->format('m')}}';
+      year = '{{explode('-',$movement->date)[0]}}';
+      month = '{{explode('-',$movement->date)[1]}}';
 
       if('{{$movement->type_of_movement}}' == 'credit'){
+        totalValue += {{$movement->value}};
+        totalCredit += {{$movement->value}};
         credit = {{$movement->value}};
       }
       if('{{$movement->type_of_movement}}' == 'debit'){
+        totalValue -= {{$movement->value}};
+        totalDebit += {{$movement->value}};
         debit = {{$movement->value}};
       }
-      console.log(debit, credit);
-        dataArray.push([new Date(year, month ), credit, debit]);
+        dataArray.push([new Date(year, month - 1 ), credit, debit]);
+
+        debit = 0;
       @endforeach
     
       data.addRows(dataArray);
@@ -169,7 +172,9 @@ function drawBackgroundColor() {
       var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
       chart.draw(data, options);
 
-      document.getElementById('totalValue').innerHTML = 'Total: R$ ' + totalValue;
+      document.getElementById('totalValue').innerHTML = 'Total em Caixa: R$ ' + totalValue;
+      document.getElementById('totalCredit').innerHTML = 'Total: R$ ' + totalCredit;
+      document.getElementById('totalDebit').innerHTML = 'Total: R$ ' + totalDebit;
     }
 </script>
 @endsection

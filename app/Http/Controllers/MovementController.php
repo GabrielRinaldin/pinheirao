@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class MovementController extends Controller
 {
@@ -16,7 +17,10 @@ class MovementController extends Controller
     {
         $credits = Movement::where('type_of_movement', 'credit')->orderBy('date', 'asc')->get();
         $debits = Movement::where('type_of_movement', 'debit')->orderBy('date', 'asc')->get();
-        $movements = Movement::orderBy('date', 'asc')->get();
+        $movements = Movement::selectRaw("sum(value) as value ,type_of_movement, to_char(date, 'YYYY-MM') as date")
+            ->orderBy('date', 'asc')
+            ->groupBy(DB::raw("to_char(date, 'YYYY-MM'), type_of_movement"))
+            ->get();
         return view('movement.index', compact('credits', 'debits', 'movements'));
     }
 
@@ -26,8 +30,9 @@ class MovementController extends Controller
         return view('movement.create', compact('houseNumbers'));
     }
 
-    public function store(Request $request){
-        try{
+    public function store(Request $request)
+    {
+        try {
             $validator = Validator::make($request->all(), [
                 'type_of_movement' => 'required',
                 'date' => 'required',
@@ -49,14 +54,13 @@ class MovementController extends Controller
             $movement->description = $request->description;
             $movement->date = $request->date;
 
-            if($request->has('house_number') && $request->house_number != null){
+            if ($request->has('house_number') && $request->house_number != null) {
                 $movement->house_number = $request->house_number;
             }
 
             $movement->save();
             return redirect('/movement')->with('status', 'Movimentação adicionada!');
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
             Log::error($e->getLine());
