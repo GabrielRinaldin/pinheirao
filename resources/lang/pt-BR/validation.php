@@ -178,12 +178,5 @@ return [
         'remember'              => 'lembrar-se de mim',
         'user_type'              => 'Tipo de usuário',
         'house_number'              => 'Número da casa',
-        'contrato_social' => 'Contrato Social Consolidado* (atualizado, em doc, docx ou pdf):',
-        'rg' => 'RG do Responsável:',
-        'cpf' => 'CPF do Responsável:',
-        'cnh' => 'CNH do Responsável:',
-        'comprovante_residencia' => 'Comprovante de Residência:',
-        'pgdas' => 'PGDAS',
-        'file' => 'Arquivos',
     ],
 ];
