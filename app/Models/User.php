@@ -17,10 +17,13 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $table = 'users';
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'user_type'
     ];
 
     /**
@@ -41,4 +44,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    const HOUSE_NUMBERS = [
+        1, 2, 3, 4, 5, 6,
+        7, 8, 9, 10, 11, 12,
+        13, 14, 15, 16, 17, 18,
+    ];
+
+    public function movements()
+    {
+        return $this->hasMany('App\Models\Movement');
+    }
+
+    public function suggestion()
+    {
+        return $this->hasMany('App\Models\Suggestion');
+    }
 }
