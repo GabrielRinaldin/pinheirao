@@ -42,8 +42,8 @@
                         <form action="{{url('/suggestion/create')}}" method="POST">
                             <div class="form-group row">
                                 <div class="col-sm-12">
-                                    <textarea style="height: 100px" type="text" class="form-control" id="suggestion" name="suggestion"
-                                        placeholder="Sugestão"></textarea>
+                                    <textarea style="height: 100px" type="text" class="form-control" id="suggestion"
+                                        name="suggestion" placeholder="Sugestão"></textarea>
                                 </div>
                             </div>
 
@@ -57,10 +57,6 @@
                                             placeholder="Contato">
                                     </div>
                                 </div>
-
-                                {{-- <div class="col-sm-4">
-                                    <a  id="add" class="btn btn-secondary">+</a>
-                                </div> --}}
 
                             </div>
                     </div>

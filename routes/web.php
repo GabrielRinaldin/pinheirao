@@ -27,26 +27,28 @@ Route::post('/login', "Auth\AuthController@login");
 Route::group(['middleware' => ['auth']], function () {
 
 
-//Rotas para moradores
-Route::get('/user', 'UserController@index');
-Route::get('/user/create', 'UserController@create');
-Route::post('/user/create', 'UserController@store');
-Route::get('/user/edit/{id}', 'UserController@show');
-Route::post('/user/edit/{id}', 'UserController@update')->name('user.update');
-Route::delete('/user/delete/{id}', 'UserController@destroy');
+    //Rotas para moradores
+    Route::get('/user', 'UserController@index');
+    Route::get('/user/create', 'UserController@create');
+    Route::post('/user/create', 'UserController@store');
+    Route::get('/user/edit/{id}', 'UserController@show');
+    Route::post('/user/edit/{id}', 'UserController@update')->name('user.update');
+    Route::delete('/user/delete/{id}', 'UserController@destroy');
 
-//Rotas para sugestões
-Route::get('/suggestion', 'SuggestionController@index');
-Route::get('/suggestion/create', 'SuggestionController@create');
-Route::post('/suggestion/create', 'SuggestionController@store');
-Route::get('/suggestion/show/{id}', 'SuggestionController@show');
+    //Rotas para sugestões
+    Route::get('/suggestion', 'SuggestionController@index');
+    Route::get('/suggestion/create', 'SuggestionController@create');
+    Route::post('/suggestion/create', 'SuggestionController@store');
+    Route::get('/suggestion/show/{id}', 'SuggestionController@show');
 
-//Rotas para movimentações    
-Route::get('/movement' , 'MovementController@index');
-Route::get('/movement/create' , 'MovementController@create');
-Route::post('/movement/create' , 'MovementController@store');
+    //Rotas para movimentações    
+    Route::get('/movement', 'MovementController@index');
+    Route::get('/movement/create', 'MovementController@create');
+    Route::post('/movement/create', 'MovementController@store');
 
-//Rotas para acompanhamento
-Route::get('/followup/{id}' , 'FollowupController@index');
+    //Rotas para acompanhamento
+    Route::get('/followup/{id}', 'FollowupController@index');
 
+    Route::get('/bill/create/{id}' ,'BillController@create');
+    Route::post('/bill/create' ,'BillController@store');
 });

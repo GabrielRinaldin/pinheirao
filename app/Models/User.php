@@ -53,11 +53,21 @@ class User extends Authenticatable
 
     public function movements()
     {
-        return $this->hasMany('App\Models\Movement');
+        return $this->hasMany(Movement::class);
     }
 
     public function suggestion()
     {
-        return $this->hasMany('App\Models\Suggestion');
+        return $this->hasMany(Suggestion::class);
+    }
+
+    public function critics()
+    {
+        return $this->hasMany(Critics::class);
+    }
+
+    public function bills()
+    {
+        return $this->hasMany(Bill::class);
     }
 }

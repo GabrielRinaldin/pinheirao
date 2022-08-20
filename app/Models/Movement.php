@@ -9,6 +9,8 @@ class Movement extends Model
 {
     use HasFactory;
 
+    protected $table = 'movements';
+    
     public function user()
     {
         return $this->belongsTo('App\Models\User');

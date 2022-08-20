@@ -50,7 +50,7 @@ class MovementController extends Controller
             $movement = new Movement();
             $movement->user_id = Auth::user()->id;
             $movement->type_of_movement = $request->type_of_movement;
-            $movement->value = $request->value;
+            $movement->value = str_replace(",", ".",$request->value);
             $movement->description = $request->description;
             $movement->date = $request->date;
 
@@ -64,7 +64,7 @@ class MovementController extends Controller
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
             Log::error($e->getLine());
-            return redirect()->back()->with('error', 'Erro ao cadastrar movimentação');
+            return back()->with('error', 'Erro ao cadastrar movimentação');
         }
     }
 }

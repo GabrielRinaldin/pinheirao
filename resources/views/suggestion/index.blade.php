@@ -28,16 +28,9 @@
                         <a class="card-title btn btn-info" href="{{url('/suggestion/create')}}">Adicionar Sugestão.</a>
                     </div>
 
-                    @if (session('status'))
-                    <div class="alert alert-success alert-dismissible fade show " role="alert">
-                        {{ session('status') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    @endif
-
                     <div class="card-body">
+                        @include('includes.alerts')
+
                         @if ($suggestions->count() == 0)
                         <p>Que pena, não foi feita nenhuma sugestão.</p>
                         <p>Seja o primerio a adiconar!</p>
@@ -56,9 +49,9 @@
                                     <tr>
                                         <td>{{$suggestion->suggestion}}</td>
                                         @if(count(json_decode($suggestion->cellphone)) > 0)
-                                            @foreach (json_decode($suggestion->cellphone) as $phone)
-                                            <td>{{$phone}}</td>
-                                            @endforeach
+                                        @foreach (json_decode($suggestion->cellphone) as $phone)
+                                        <td>{{$phone}}</td>
+                                        @endforeach
                                         @endif
                                     </tr>
                                     @endforeach

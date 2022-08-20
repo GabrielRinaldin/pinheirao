@@ -30,21 +30,12 @@
                         <a class="card-title btn btn-info" href="{{url('/user')}}">Voltar</a>
                     </div>
 
-
-                    @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
-
-
                     <form action="{{url('/user/create')}}" method="POST">
                         @csrf
                         <div class="card-body">
+                            
+                            @include('includes.alerts')
+
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <input type="name" class="form-control  @error('name') is-invalid @enderror"
@@ -78,7 +69,7 @@
                                             <option value="">Tipo usuário</option>
                                             <option value="sindico">Sindico</option>
                                             <option value="colaborador">Colaborador</option>
-                                            <option value="Morador">Morador</option>
+                                            <option value="morador">Morador</option>
                                         </select>
                                         @error('user_type')
                                         <span class="invalid-feedback" role="alert">
