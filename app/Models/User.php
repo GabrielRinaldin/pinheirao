@@ -68,6 +68,6 @@ class User extends Authenticatable
 
     public function bills()
     {
-        return $this->hasMany(Bill::class);
+        return $this->hasMany(Bill::class)->orderBy('id', 'desc');
     }
 }

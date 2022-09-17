@@ -20,6 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/pagar-boleto/{id}', 'BillController@update');
+
 
 Route::post('/login', "Auth\AuthController@login");
 
@@ -49,6 +51,6 @@ Route::group(['middleware' => ['auth']], function () {
     //Rotas para acompanhamento
     Route::get('/followup/{id}', 'FollowupController@index');
 
-    Route::get('/bill/create/{id}' ,'BillController@create');
-    Route::post('/bill/create' ,'BillController@store');
+    Route::get('/bill/create/{id}', 'BillController@create');
+    Route::post('/bill/create', 'BillController@store');
 });

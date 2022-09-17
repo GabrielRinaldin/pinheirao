@@ -25,8 +25,16 @@
                 <!-- Default box -->
                 <div class="card">
                     <div class="card-header">
-
-                        <a class="card-title btn btn-info" href="{{url('/user')}}">Voltar</a>
+                        <div class="row">
+                            <div class="col-10">
+                                <a class="btn btn-info" href="{{url('/user')}}">Voltar</a>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-primary" id="exibir_faturas">
+                                    Exibir Faturas
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <form action="{{url('/bill/create')}}" method="POST">
@@ -89,7 +97,63 @@
                 <!-- /.card -->
             </div>
         </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Faturas Geradas</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Data do pagamento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(isset($user->bills))
+                                @foreach($user->bills as $bill)
+                                <tr>
+                                    <td>{{$bill->id}}</td>
+                                    <td>
+                                        @switch($bill->status)
+                                        @case("pending")
+                                        Pendente
+                                        @break
+                                        @case("paid")
+                                        Pago
+                                        @break
+                                        @default
+                                        Pendente
+                                        @endswitch</td>
+                                    <td>{{$bill->amount}}</td>
+                                    <td>{{$bill->paid_at}}</td>
+                                </tr>
+                                @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+<script>
+    $("#exibir_faturas").click(function(){
+    $("#exampleModal").modal('show')
+})
+</script>
 <!-- /.content -->
 @endsection

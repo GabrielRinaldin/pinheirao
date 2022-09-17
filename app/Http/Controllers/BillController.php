@@ -49,7 +49,7 @@ class BillController extends Controller
 
             $billPdf = $this->createBillPdf($bill, $user);
 
-            Mail::to('gabrielrinaldin@hotmail.com')->queue(new \App\Mail\BillCreated($billPdf, $user));
+            Mail::to('gabrielrinaldin@hotmail.com')->queue(new \App\Mail\BillCreated($billPdf, $bill, $user));
 
             return redirect('/user')->with('status', 'Fatura Gerada com Sucesso!');
         } catch (\Exception $e) {
@@ -81,5 +81,22 @@ class BillController extends Controller
             Log::error($e->getTraceAsString());
             Log::error($e->getLine());
         }
+    }
+
+    public function update($id)
+    {
+        $bill = Bill::findOrFail($id);
+        $bill->update(['status' => "paid", 'paid_at' => now()]);
+
+        $movement = new \App\Models\Movement();
+        $movement->user_id = $bill->user_id;
+        $movement->type_of_movement = "credit";
+        $movement->value = str_replace(",", ".", $bill->amount);
+        $movement->description = "Pagamento casa número " . $bill->user->house_number ;
+        $movement->date = $bill->paid_at;
+        $movement->house_number = $bill->user->house_number;
+        $movement->save();
+
+        return view('bill.update', compact('bill'));
     }
 }

@@ -35,21 +35,21 @@
                             <table class="table table-head-fixed text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Nome</th>
-                                        <th>Número da casa</th>
-                                        <th>Tipo</th>
-                                        <th>Ações</th>
+                                        <th class="text-center">Nome</th>
+                                        <th class="text-center">Número da casa</th>
+                                        <th class="text-center">Tipo</th>
+                                        <th class="text-center">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $user)
                                     <tr>
-                                        <td>{{$user->name}}</td>
-                                        <td>{{$user->house_number}}</td>
-                                        <td>{{$user->user_type}}</td>
-                                        <td>
-                                            <a class="btn btn-info"
-                                                href="{{url('/bill/create/'. $user->id)}}">Gerar Fatura</a>
+                                        <td class="text-center">{{$user->name}}</td>
+                                        <td class="text-center">{{$user->house_number}}</td>
+                                        <td class="text-center">{{$user->user_type}}</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-info" href="{{url('/bill/create/'. $user->id)}}">Gerenciar
+                                                Faturas</a>
                                             <a class="btn btn-warning"
                                                 href="{{url('/user/edit/' . $user->id)}}">Editar</a>
                                             <a class="btn btn-danger" href="{{url('/user/delete')}}">Excluir</a>

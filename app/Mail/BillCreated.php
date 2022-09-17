@@ -18,11 +18,13 @@ class BillCreated extends Mailable
      */
 
     public $billPdf;
+    public $bill;
     public $user;
 
-    public function __construct($billPdf, $user)
+    public function __construct($billPdf, $bill,$user)
     {
         $this->billPdf = $billPdf;
+        $this->bill = $bill;
         $this->user = $user;
     }
 
