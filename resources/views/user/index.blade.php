@@ -48,11 +48,18 @@
                                         <td class="text-center">{{$user->house_number}}</td>
                                         <td class="text-center">{{$user->user_type}}</td>
                                         <td class="text-center">
-                                            <a class="btn btn-info" href="{{url('/bill/create/'. $user->id)}}">Gerenciar
+                                            <a class="btn btn-sm btn-info"
+                                                href="{{url('/bill/create/'. $user->id)}}">Gerenciar
                                                 Faturas</a>
-                                            <a class="btn btn-warning"
+                                            <a class="btn btn-sm btn-info"
+                                                href="{{url('/user/automobile/'. $user->id)}}">Gerenciar
+                                                Veículos</a>
+                                            <a class="btn btn-sm btn-info"
+                                                href="{{url('/user/parent/'. $user->id)}}">Gerenciar
+                                                Visitantes</a>
+                                            <a class="btn btn-sm btn-warning"
                                                 href="{{url('/user/edit/' . $user->id)}}">Editar</a>
-                                            <a class="btn btn-danger" href="{{url('/user/delete')}}">Excluir</a>
+                                            <a class="btn btn-sm btn-danger" href="{{url('/user/delete')}}">Excluir</a>
                                         </td>
                                     </tr>
                                     @endforeach

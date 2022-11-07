@@ -176,7 +176,10 @@ return [
         'year'                  => 'ano',
         'email'                 => 'e-mail',
         'remember'              => 'lembrar-se de mim',
-        'user_type'              => 'Tipo de usuário',
-        'house_number'              => 'Número da casa',
+        'user_type'             => 'Tipo de usuário',
+        'house_number'          => 'Número da casa',
+        'year'                  => 'Ano',
+        'identifies'            => 'Placa',
+        'type'                  => 'Tipo',
     ],
 ];

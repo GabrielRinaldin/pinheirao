@@ -70,4 +70,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Bill::class)->orderBy('id', 'desc');
     }
+    public function automobiles()
+    {
+        return $this->hasMany(Automobile::class)->orderBy('id', 'desc');
+    }
+
+    public function history()
+    {
+        return $this->hasMany(UserHistory::class)->orderBy('id', 'desc');
+    }
+
+    public function lastHistory()
+    {
+        return UserHistory::where('user_id', $this->id)->orderBy('id', 'desc')->first();
+    }
+    
 }

@@ -37,6 +37,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/user/edit/{id}', 'UserController@update')->name('user.update');
     Route::delete('/user/delete/{id}', 'UserController@destroy');
 
+    //Rotas para Visitantes
+    Route::get('/user/parent/{id}', 'ParentController@index');
+    Route::post('/user/parent/update-date-in/{id}', 'ParentController@updateDateIn');
+    Route::post('/user/parent/update-date-out/{id}', 'ParentController@updateDateOut');
+
+    //Rotas para veículos
+    Route::get('/user/automobile/{id}', 'AutomobileController@create');
+    Route::post('/user/automobile/create', 'AutomobileController@store');
+
+
+
     //Rotas para sugestões
     Route::get('/suggestion', 'SuggestionController@index');
     Route::get('/suggestion/create', 'SuggestionController@create');
