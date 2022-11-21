@@ -30,8 +30,10 @@
                                 <h4>Morador {{ucfirst($user->name)}} n° {{$user->house_number}}</h4>
                             </div>
                             <div class="col-2 ">
-                                <a class="card-title btn btn-info" href="{{url('/child/create')}}">Cadastrar Novo
-                                    Visitante.</a>
+                                <button type="button" class="card-title btn btn-info" id="cadastro">
+                                    Cadastrar Novo
+                                    Visitante.
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -55,24 +57,36 @@
                                     <tr>
                                         <td class="text-center">{{ucfirst($child->name)}}</td>
                                         <td class="text-center">{{$user->house_number}}</td>
-                                        <td class="text-center" id="lastHistoryIn{{$child->id}}">{{$child->lastHistory()->date_in ? Carbon\Carbon::parse($child->lastHistory()->date_in)->format("d/m/Y H:i:s") : ''}}</td>
-                                        <td class="text-center" id="lastHistoryOut{{$child->id}}">{{$child->lastHistory()->date_out ? Carbon\Carbon::parse($child->lastHistory()->date_out)->format("d/m/Y H:i:s") : ''}}</td>
+                                        <td class="text-center" id="lastHistoryIn{{$child->id}}">
+                                            {{$child->lastHistory() ?
+                                            Carbon\Carbon::parse($child->lastHistory()->date_in)->format("d/m/Y H:i:s")
+                                            : ''}}</td>
+                                        <td class="text-center" id="lastHistoryOut{{$child->id}}">
+                                            @if(!is_null($child->lastHistory())){{$child->lastHistory()->date_out ?
+                                            Carbon\Carbon::parse($child->lastHistory()->date_out)->format("d/m/Y H:i:s")
+                                            : ''}}@endif</td>
                                         <td class="text-center">
                                             <a>
-                                                @if(!is_null($child->lastHistory()) &&
-                                                is_null($child->lastHistory()->date_out))
-                                                <button class="btn btn-sm btn-link date_out" value={{$child->id}}>Marcar Saída</button>
-                                                @else
-                                                <button class="btn btn-sm btn-link date_in" value={{$child->id}}> Marcar Entrada </button>
-                                                @endif
+
+                                                <button class="btn btn-sm btn-link date_out"
+                                                    @if(!is_null($child->lastHistory()) &&
+                                                    !is_null($child->lastHistory()->date_out) ||
+                                                    is_null($child->lastHistory())) hidden @endif
+                                                    id="date_out{{$child->id}}" value={{$child->id}}>Marcar
+                                                    Saída</button>
+                                                <button class="btn btn-sm btn-link date_in"
+                                                    @if(!is_null($child->lastHistory()) &&
+                                                    is_null($child->lastHistory()->date_out)) hidden @endif
+                                                    id="date_in{{$child->id}}" value={{$child->id}}> Marcar Entrada
+                                                </button>
                                             </a>
                                             <button type="button" class="btn btn-sm btn-primary exibir_historico"
                                                 value={{$child}}>
                                                 Histórico de visitas
                                             </button>
-                                            <a class="btn btn-sm btn-info" href="{{url('/user/automobile/'. $child->id)}}">Gerenciar
+                                            <a class="btn btn-sm btn-info"
+                                                href="{{url('/user/automobile/'. $child->id)}}">Gerenciar
                                                 Veículos</a>
-                                            <a class="btn btn-sm btn-danger" href="{{url('/child/delete')}}">Excluir</a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -83,6 +97,44 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cadastroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelCadastro"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelCadastro">Cadastrar Visitante </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{url("/user/parent/". $user->id)}}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input type="name" class="form-control  @error('name') is-invalid @enderror"
+                                    value="{{ old('name') }}" id="name" name="name" placeholder="Nome">
+
+                                @error('name')
+
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" data-dismiss="modal">Salvar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -114,7 +166,8 @@
                             <tr>
                                 <td>{{$history->id}}</td>
                                 <td>{{Carbon\Carbon::parse($history->date_in)->format('d/m/y H:i:s')}}</td>
-                                <td>{{$history->date_out ? Carbon\Carbon::parse($history->date_out)->format('d/m/y H:i:s') : ''}}</td>
+                                <td>{{$history->date_out ? Carbon\Carbon::parse($history->date_out)->format('d/m/y
+                                    H:i:s') : ''}}</td>
                             </tr>
                             @endforeach
                             @endif
@@ -139,12 +192,17 @@
         $("#userHistory").html(user['name']);
         $("#historico_id" + user['id']).modal('show');
 })
+    $("#cadastro").click(function(){
+        $("#cadastroModal").modal('show');
+})
 
     $(".date_in").click(function(){
         axios.post('/user/parent/update-date-in/' + this.value).then((response) =>{
             if(response.data.status == "Success"){
                 $("#lastHistoryIn"+this.value).html(response.data.history);
                 $("#lastHistoryOut"+this.value).html("");
+                $("#date_in"+this.value).attr("hidden", true);
+                $("#date_out"+this.value).attr("hidden", false);
                 
 
             }
@@ -154,6 +212,8 @@
         axios.post('/user/parent/update-date-out/' + this.value).then((response) =>{
             if(response.data.status == "Success"){
                 $("#lastHistoryOut"+this.value).html(response.data.history)
+                $("#date_out"+this.value).attr("hidden", true);
+                $("#date_in"+this.value).attr("hidden", false);
             }
         })
     })

@@ -66,14 +66,13 @@ class BillController extends Controller
         try {
 
             $file = storage_path() . "/app/public/bills/bill_" . $bill->id . $user->name . ".pdf";
-
-            $pdf = PDF::loadView('pdf.bill', compact('bill', 'user'))
+            $pdf = PDF::loadView('pdf.bill', compact('bill',  'user'))
+                ->setPaper('a4')
                 ->setOptions([
                     'dpi' => 150,
-                    'defaultFont' => 'sans-serif',
-                    'defaultPaperSize' => 'a4'
+                    'defaultPaperSize' => 'a4',
+                    'isHtml5ParserEnabled' => true,
                 ])->save($file);
-
 
             return $file;
         } catch (\Exception $e) {
@@ -92,7 +91,7 @@ class BillController extends Controller
         $movement->user_id = $bill->user_id;
         $movement->type_of_movement = "credit";
         $movement->value = str_replace(",", ".", $bill->amount);
-        $movement->description = "Pagamento casa número " . $bill->user->house_number ;
+        $movement->description = "Pagamento casa número " . $bill->user->house_number;
         $movement->date = $bill->paid_at;
         $movement->house_number = $bill->user->house_number;
         $movement->save();

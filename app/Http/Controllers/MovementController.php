@@ -15,8 +15,8 @@ class MovementController extends Controller
 {
     public function index()
     {
-        $credits = Movement::where('type_of_movement', 'credit')->orderBy('date', 'asc')->get();
-        $debits = Movement::where('type_of_movement', 'debit')->orderBy('date', 'asc')->get();
+        $credits = Movement::where('type_of_movement', 'credit')->orderBy('date', 'desc')->get();
+        $debits = Movement::where('type_of_movement', 'debit')->orderBy('date', 'desc')->get();
         $movements = Movement::selectRaw("sum(value) as value ,type_of_movement, to_char(date, 'YYYY-MM') as date")
             ->orderBy('date', 'asc')
             ->groupBy(DB::raw("to_char(date, 'YYYY-MM'), type_of_movement"))

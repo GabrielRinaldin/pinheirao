@@ -96,7 +96,19 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(){
+    public function destroy($id){
+        try{
+            User::find($id)->delete();
+            return redirect('/user')
+            ->with('status', 'Morador Excluído!');
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+            Log::error($e->getLine());
+            return redirect()->back()->with('error', 'Erro ao excluír usuário');
+        }
+        
         
     }
 }

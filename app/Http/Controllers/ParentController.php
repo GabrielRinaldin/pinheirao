@@ -26,9 +26,18 @@ class ParentController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $parent = User::find($id);
+        $user = new User();
+        $user->name = $request->name;
+        $user->parent_id = $parent->id;
+        $user->house_number = $parent->house_number;
+        $user->user_type  ="morador";
+        $user->password  = bcrypt("123456789");
+        $user->save();
+
+        return back();
     }
 
 
@@ -62,10 +71,10 @@ class ParentController extends Controller
         try {
             $history = UserHistory::where('user_id', $id)
                 ->orderBy('id', 'desc')
-                ->first()
-                ->update([
-                    'date_out' => now(),
-                ]);
+                ->first();
+            $history->update([
+                'date_out' => now(),
+            ]);    
             return response()->json(['status' => 'Success', "history" => $history->date_out->format("d/m/Y H:i:s")]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -75,8 +84,19 @@ class ParentController extends Controller
     }
 
 
-    public function destroy($id)
-    {
-        //
+    public function destroy($id){
+        try{
+            User::find($id)->delete();
+            return redirect('/user')
+            ->with('status', 'Morador Excluído!');
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+            Log::error($e->getLine());
+            return redirect()->back()->with('error', 'Erro ao excluír usuário');
+        }
+        
+        
     }
 }

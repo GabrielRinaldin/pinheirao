@@ -181,5 +181,6 @@ return [
         'year'                  => 'Ano',
         'identifies'            => 'Placa',
         'type'                  => 'Tipo',
+        'suggestion'            => 'Sugestão',
     ],
 ];

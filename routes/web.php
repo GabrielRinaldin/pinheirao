@@ -39,8 +39,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Rotas para Visitantes
     Route::get('/user/parent/{id}', 'ParentController@index');
+    Route::post('/user/parent/{id}', 'ParentController@store');
     Route::post('/user/parent/update-date-in/{id}', 'ParentController@updateDateIn');
     Route::post('/user/parent/update-date-out/{id}', 'ParentController@updateDateOut');
+    Route::delete('/child/delete/{id}', 'ParentController@destroy');
+
 
     //Rotas para veículos
     Route::get('/user/automobile/{id}', 'AutomobileController@create');
